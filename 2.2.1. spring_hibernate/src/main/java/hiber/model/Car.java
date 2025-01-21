@@ -2,8 +2,10 @@ package hiber.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
-@Table(name = "Car")
+@Table(name = "cars")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,9 +14,12 @@ public class Car {
 
     private int series;
 
-    @OneToOne(mappedBy = "User_car", cascade = CascadeType.ALL)
-    private User user;
+
     public Car() {}
+    public Car(String model, int series) {
+        this.model = model;
+        this.series = series;
+    }
 
     public int getSeries() {
         return series;
@@ -33,11 +38,21 @@ public class Car {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Car)) return false;
+        Car car = (Car) o;
+        return series == car.series && Objects.equals(id, car.id) && Objects.equals(model, car.model);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, model, series);
+    }
+
+    @Override
     public String toString() {
         return "Car{" +
                 "model='" + model + '\'' +
-                ", series=" + series +
-                ", user=" + user +
-                '}';
+                ", series=" + series;
     }
 }

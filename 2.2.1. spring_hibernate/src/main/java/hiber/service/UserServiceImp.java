@@ -7,15 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
 
-   private UserDao userDao;
+   private final UserDao userDao;
 
    @Autowired
    public UserServiceImp(UserDao userDao) {
       this.userDao = userDao;
+   }
+   @Transactional(readOnly = true)
+   @Override
+   public Optional<User> findUserByCar(String model, int series) {
+      return Optional.ofNullable(userDao.findUserByCar(model, series));
    }
 
    @Transactional

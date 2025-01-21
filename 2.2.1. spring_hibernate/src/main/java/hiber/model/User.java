@@ -2,7 +2,10 @@ package hiber.model;
 
 import jakarta.persistence.*;
 
-import static jakarta.persistence.FetchType.LAZY;
+
+import java.util.Objects;
+
+
 
 
 @Entity
@@ -27,7 +30,7 @@ public class User {
    private Car car;
 
    public User() {}
-   
+
    public User(String firstName, String lastName, String email) {
       this.firstName = firstName;
       this.lastName = lastName;
@@ -44,6 +47,12 @@ public class User {
 
    public String getFirstName() {
       return firstName;
+   }
+   public Car getCar() {return car;}
+
+   public User setCar(Car car) {
+      this.car = car;
+      return this;
    }
 
    public void setFirstName(String firstName) {
@@ -64,6 +73,18 @@ public class User {
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   @Override
+   public boolean equals(Object o) {
+      if (!(o instanceof User)) return false;
+      User user = (User) o;
+      return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(car, user.car);
+   }
+
+   @Override
+   public int hashCode() {
+      return Objects.hash(id, firstName, lastName, email, car);
    }
 
    @Override
