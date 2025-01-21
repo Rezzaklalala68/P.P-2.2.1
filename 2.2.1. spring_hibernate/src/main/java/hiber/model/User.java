@@ -1,13 +1,16 @@
 package hiber.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import static jakarta.persistence.FetchType.LAZY;
+
 
 @Entity
 @Table(name = "users")
 public class User {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.IDENTITY )
    private Long id;
 
    @Column(name = "name")
@@ -18,6 +21,10 @@ public class User {
 
    @Column(name = "email")
    private String email;
+
+   @OneToOne( cascade = CascadeType.ALL)
+   @JoinColumn(name = "car_id", referencedColumnName = "id")
+   private Car car;
 
    public User() {}
    
@@ -57,5 +64,16 @@ public class User {
 
    public void setEmail(String email) {
       this.email = email;
+   }
+
+   @Override
+   public String toString() {
+      return "User{" +
+              "id=" + id +
+              ", firstName='" + firstName + '\'' +
+              ", lastName='" + lastName + '\'' +
+              ", email='" + email + '\'' +
+              ", car=" + car +
+              '}';
    }
 }
